@@ -1,10 +1,15 @@
 package it.gacciai.sec02.assignment;
 
+import it.gacciai.sec02.Lec11NonBlockingIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.nio.file.*;
 
 public class FileServiceImpl implements FileService{
+
+    private static final Logger log = LoggerFactory.getLogger(Lec11NonBlockingIO.class);
 
     private final String userDirectory = FileSystems.getDefault()
             .getPath("")
@@ -34,6 +39,8 @@ public class FileServiceImpl implements FileService{
 
     private String read_callable(String fileName) throws Exception {
 
+        log.info("Reading file: " + fileName);
+
         Path dirPath = Paths.get(assetDirectory);
 
         if (!Files.isDirectory(dirPath)) {
@@ -59,6 +66,8 @@ public class FileServiceImpl implements FileService{
 
     private Void write_callable(String fileName, String content) throws Exception {
 
+        log.info("Writing file: " + fileName);
+
         Path dirPath = Paths.get(assetDirectory);
 
         if (!Files.isDirectory(dirPath)) {
@@ -79,6 +88,8 @@ public class FileServiceImpl implements FileService{
     }
 
     private Void delete_callable(String fileName) throws Exception {
+
+        log.info("Deleting file: " + fileName);
 
         Path dirPath = Paths.get(assetDirectory);
 
