@@ -17,7 +17,7 @@ public class Lec06MonoFromCallable {
 
     public static void main(String[] args) {
 
-        var list = List.of(1, 2, 3, 4);
+        var list = List.of(1, 2, 3);
 
         log.info("Subscription will evoke \"onError\" on the subscriber! ");
         var publisher = Mono.fromCallable(() -> sum(list));
