@@ -18,6 +18,14 @@ public class Lec10MonoDefer {
     public static void main(String[] args) {
 
         log.info("method main starts");
+
+        log.info("creating a slow publisher without subscriptions...");
+        createPublisher(); //Slow operation even without a subscriber
+
+        log.info("Deferring publisher creation without subscription...");
+        Mono.defer(Lec10MonoDefer::createPublisher); //Fast operation!!!
+
+        log.info("Subscribing to the deferred publisher...");
         Mono.defer(Lec10MonoDefer::createPublisher)
                 .subscribe(Util.subscriber())
         ;
