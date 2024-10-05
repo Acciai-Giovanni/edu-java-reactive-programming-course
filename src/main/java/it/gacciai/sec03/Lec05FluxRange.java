@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
+/*
+    To create a range of items based on the given start and count
+ */
 public class Lec05FluxRange {
 
     private static final Logger log = LoggerFactory.getLogger(Lec05FluxRange.class);
