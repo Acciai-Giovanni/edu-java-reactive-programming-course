@@ -17,9 +17,12 @@ public class FileReaderServiceImpl implements FileReaderService{
     public Flux<String> read(Path path) {
 
         return Flux.generate(
-                () -> Files.newBufferedReader(path),
+                () -> {
+                    log.info("opening file");
+                    return Files.newBufferedReader(path);
+                },
                 (bufferedReader, sink) -> {
-                    //log.info("reading next line");
+                    log.info("reading next line");
 
                     try {
                         Optional<String> line = Optional.ofNullable(bufferedReader.readLine());
@@ -38,6 +41,7 @@ public class FileReaderServiceImpl implements FileReaderService{
                     return bufferedReader;
                 },
                 bufferedReader -> {
+                    log.info("closing file");
                     try {
                         bufferedReader.close();
                     } catch (IOException e) {

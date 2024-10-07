@@ -13,7 +13,8 @@ public class Lec09Assignment {
 
         var service = new FileReaderServiceImpl();
         service.read(path)
-                .subscribe(Util.subscriber());
+                .subscribe(Util.subscriber())
+        ;
     }
 
 }
