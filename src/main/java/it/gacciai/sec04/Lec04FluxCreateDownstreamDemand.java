@@ -15,9 +15,12 @@ public class Lec04FluxCreateDownstreamDemand {
 
     public static void main(String[] args) {
 
+        produceOnDemand();
+
+    }
+
+    private static void produceEarly() {
         var subscriber = new SubscriberImpl();
-        var subscriber1 = new SubscriberImpl();
-        var subscriber2 = new SubscriberImpl();
 
         Flux.<String>create(fluxSink -> {
                     for (int i = 0; i < 10; i++) {
@@ -42,7 +45,34 @@ public class Lec04FluxCreateDownstreamDemand {
         subscriber.getSubscription().cancel();
 
         subscriber.getSubscription().request(4);
+    }
 
+    private static void produceOnDemand() {
+        var subscriber = new SubscriberImpl();
+
+        Flux.<String>create(fluxSink -> {
+
+                    fluxSink.onRequest(count -> {
+                        for (int i = 0; i < count && !fluxSink.isCancelled(); i++) {
+                            var name = Util.faker().name().firstName();
+                            log.info("sink generated: {}", name);
+                            fluxSink.next(name);
+                        }
+                    });
+                })
+                //.log()
+                .subscribe(subscriber)
+        ;
+
+        Util.sleepSeconds(2);
+        subscriber.getSubscription().request(4);
+
+        Util.sleepSeconds(2);
+        subscriber.getSubscription().request(4);
+
+        subscriber.getSubscription().cancel();
+
+        subscriber.getSubscription().request(4);
     }
 
 }
