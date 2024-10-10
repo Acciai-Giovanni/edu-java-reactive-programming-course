@@ -12,6 +12,26 @@ public class Lec03DoCallbacks {
 
     private static final Logger log = LoggerFactory.getLogger(Lec03DoCallbacks.class);
 
+
+    /**
+     * Events that propagate from SUBSCRIBER to PRODUCER:
+     * <ul> doFirst </ul>
+     * <ul> doOnRequest </ul>
+     * <ul> doOnCancel </ul>
+     * <ul> doFinally </ul>
+     * <p>
+     * Events that propagate from PRODUCER to SUBSCRIBER:
+     * <ul> doOnSubscribe </ul>
+     * <ul> doOnNext / doOnDiscard </ul>
+     * <ul> doOnComplete / doOnError </ul>
+     * <ul> doOnTerminate (immediately after COMPLETE or ERROR. not executed on CANCEL )</ul>
+     * <p>
+     * main Operators that can CHANGE the propagated value
+     * <ul> doOnNext </ul>
+     * <ul> map </ul>
+     * <ul> handle </ul>
+     * <ul> ...  </ul>
+     */
     public static void main(String[] args) {
 
         Flux.<Integer>create(fluxSink -> {
@@ -46,7 +66,6 @@ public class Lec03DoCallbacks {
                 .doFinally(signal -> log.info("doFinally-2: {}", signal)) // finally irrespective of the reason
                 //.take(4)
                 .subscribe(Util.subscriber("subscriber"));
-
 
     }
 
