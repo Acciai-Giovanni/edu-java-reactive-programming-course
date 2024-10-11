@@ -1,9 +1,9 @@
 package it.gacciai.sec05.assignment;
 
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 public interface ProductService {
-    Flux<String> getProductNames();
+    Mono<String> getProductName(Integer id);
 
 }

@@ -10,8 +10,20 @@ public class Lec11Assignment {
 
         var service = new ProductServiceImpl();
 
-        service.getProductNames()
-                .subscribe(Util.subscriber());
+        service.getProductName(1)
+                .subscribe(Util.subscriber("subscriber 1"));
+
+        service.getProductName(2)
+                .subscribe(Util.subscriber("subscriber 2"));
+
+        service.getProductName(3)
+                .subscribe(Util.subscriber("subscriber 3"));
+
+        service.getProductName(4)
+                .subscribe(Util.subscriber("subscriber 4"));
+
+
+        Util.sleepSeconds(5);
 
     }
 
