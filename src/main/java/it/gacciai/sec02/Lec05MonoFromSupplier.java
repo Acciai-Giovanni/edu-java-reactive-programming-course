@@ -19,7 +19,7 @@ public class Lec05MonoFromSupplier {
 
         var list = List.of(1, 2, 3, 4);
 
-        // Do not use JUST! it compute the sum before the subscription!
+        // Do not use JUST! it computes the sum before the subscription!
         //Mono.just(sum(list))
         //        .subscribe(Util.subscriber());
 
@@ -38,7 +38,7 @@ public class Lec05MonoFromSupplier {
     }
 
     /**
-     * Simulating a coputing intensive operation on multiple items
+     * Simulating a computing intensive operation on multiple items
      */
     private static int sum(List<Integer> list) {
         log.info("finding the sum of {}", list);

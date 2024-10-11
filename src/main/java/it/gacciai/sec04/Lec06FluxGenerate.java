@@ -17,7 +17,7 @@ public class Lec06FluxGenerate {
 
     private static final Logger log = LoggerFactory.getLogger(Lec06FluxGenerate.class);
 
-    private static Long count = 0L;
+    private static final Long count = 0L;
 
     public static void main(String[] args) {
 

@@ -24,7 +24,7 @@ public class Lec11NonBlockingIO {
                     .subscribe(Util.subscriber());
         }
 
-        log.info("wating for async completion");
+        log.info("waiting for async completion");
         Util.sleepSeconds(3);
 
         log.info("method main ends");

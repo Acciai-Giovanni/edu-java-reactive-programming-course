@@ -25,12 +25,12 @@ public class Lec08MonoFromFuture {
                 .subscribe(Util.subscriber("subscriber2"))
         ;
 
-        //LAZY! AlSO this will execute only if there is a subscriber
+        //LAZY! Also, this will execute only if there is a subscriber
         Mono.fromFuture(Lec08MonoFromFuture::getName)
                 .subscribe(Util.subscriber("subscriber3"))
         ;
 
-        log.info("wating for async completion");
+        log.info("waiting for async completion");
         Util.sleepSeconds(3);
 
         log.info("method main ends");

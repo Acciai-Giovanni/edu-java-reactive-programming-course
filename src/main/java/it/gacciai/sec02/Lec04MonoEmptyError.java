@@ -20,18 +20,17 @@ public class Lec04MonoEmptyError {
                     .subscribe(Util.subscriber());
 
             log.info("Subscribing and explicitly ignoring the error - We will log nothing");
-            getUsername(3)
+            getUsername(4)
                     .subscribe(
                             item -> log.info("item is: {}", item),
                             err-> {}
 
                     );
-            ;
     }
 
     private static Mono<String> getUsername(int userId){
         return switch (userId){
-            case 1 -> Mono.just("gacciai");
+            case 1 -> Mono.just("john.doe");
             case 2 -> Mono.empty(); // null
             default -> Mono.error(new RuntimeException("invalid input"));
         };

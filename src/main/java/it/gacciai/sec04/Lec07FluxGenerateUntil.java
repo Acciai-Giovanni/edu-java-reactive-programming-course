@@ -9,7 +9,7 @@ public class Lec07FluxGenerateUntil {
         Flux.<String>generate(synchronousSync -> {
                     synchronousSync.next(Util.faker().country().name());
                 })
-                .takeUntil(country -> "canada".equalsIgnoreCase(country))
+                .takeUntil("canada"::equalsIgnoreCase)
                 .subscribe(Util.subscriber());
     }
 }

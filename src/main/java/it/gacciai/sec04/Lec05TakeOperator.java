@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 /*
     Take is similar to java stream's limit
  */
+@SuppressWarnings("SpellCheckingInspection")
 public class Lec05TakeOperator {
 
     public static void main(String[] args) {

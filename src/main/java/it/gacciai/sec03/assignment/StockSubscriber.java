@@ -41,7 +41,7 @@ public class StockSubscriber<T> implements Subscriber<Long> {
         } else if (currentStockPrice > selloutThreshold) {
             log.info("Selling all {} stock at: {}", stock, currentStockPrice);
             sellAllAt(currentStockPrice);
-            log.info("Current balance: {}", balance);
+            log.info("Current balance: {} / Starting balance: {}", balance, startingBalance);
             subscription.cancel();
         }
     }

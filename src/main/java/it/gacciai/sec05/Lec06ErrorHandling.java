@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
         ...
         ...
  */
-@SuppressWarnings({"unused", "divzero", "overflow"})
+@SuppressWarnings({"unused", "divzero", "NumericOverflow"})
 public class Lec06ErrorHandling {
 
 

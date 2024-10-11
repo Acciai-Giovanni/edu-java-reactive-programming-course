@@ -41,7 +41,7 @@ public class Lec10MonoDefer {
         return Mono.fromSupplier(() -> sum(list));
     }
 
-    //Time consuming business logic
+    //Time-consuming business logic
     private static int sum(List<Integer> list) {
         log.info("finding the sum of {}", list);
         Util.sleepSeconds(3);

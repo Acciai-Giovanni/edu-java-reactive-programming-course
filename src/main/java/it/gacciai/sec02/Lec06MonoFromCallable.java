@@ -27,7 +27,7 @@ public class Lec06MonoFromCallable {
     }
 
     /**
-     * Simulating a coputing intensive operation on multiple items
+     * Simulating a computing intensive operation on multiple items
      */
     private static int sum(List<Integer> list) throws Exception {
         log.info("finding the sum of {}", list);

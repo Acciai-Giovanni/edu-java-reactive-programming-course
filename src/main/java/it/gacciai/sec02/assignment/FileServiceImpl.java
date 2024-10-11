@@ -1,6 +1,5 @@
 package it.gacciai.sec02.assignment;
 
-import it.gacciai.sec02.Lec11NonBlockingIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -9,7 +8,7 @@ import java.nio.file.*;
 
 public class FileServiceImpl implements FileService{
 
-    private static final Logger log = LoggerFactory.getLogger(Lec11NonBlockingIO.class);
+    private static final Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
 
     private final String userDirectory = FileSystems.getDefault()
             .getPath("")
