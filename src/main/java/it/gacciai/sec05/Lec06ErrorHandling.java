@@ -4,6 +4,7 @@ import it.gacciai.common.Util;
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /*
@@ -14,19 +15,29 @@ import reactor.core.publisher.Mono;
         ...
         ...
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "divzero", "overflow"})
 public class Lec06ErrorHandling {
 
 
     private static final Logger log = LoggerFactory.getLogger(Lec06ErrorHandling.class);
 
     public static void main(String[] args) {
-        Mono.error(new ArithmeticException())
-        //Mono.just(1)
+        /*Flux.range(1,10)
                 .log("l1")
-                .onErrorComplete()
+                .map(i -> i == 5 ? 5 / 0 : i)
                 .log("l2")
-                .subscribe();
+                .onErrorContinue(ArithmeticException.class, (ex, obj) -> log.error("==> {}", obj, ex))
+                .log("l3")
+                .subscribe(Util.subscriber());
+        */
+    }
+
+    // skip the error and continue
+    private static void onErrorContinue(){
+        Flux.range(1,10)
+                .map(i -> i == 5 ? 5 / 0 : i)
+                .onErrorContinue(ArithmeticException.class, (ex, obj) -> log.error("==> {}", obj, ex))
+                .subscribe(Util.subscriber());
     }
 
     // when you want to return a hardcoded value / simple computation
@@ -34,7 +45,6 @@ public class Lec06ErrorHandling {
         Mono.error(new ArithmeticException())
                 .onErrorReturn(IllegalArgumentException.class, -1)
                 .onErrorReturn(ArithmeticException.class, -2)
-                .onErrorReturn(-3)
                 .subscribe(Util.subscriber());
     }
 
