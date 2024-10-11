@@ -14,21 +14,22 @@ import reactor.core.publisher.Mono;
         ...
         ...
  */
+@SuppressWarnings("unused")
 public class Lec06ErrorHandling {
 
-    @SuppressWarnings("unused")
+
     private static final Logger log = LoggerFactory.getLogger(Lec06ErrorHandling.class);
 
     public static void main(String[] args) {
-        Mono.error(new ArithmeticException("Ah Ah Ah, You Didn't Say The Magic Word"))
-                .onErrorResume(ArithmeticException.class, ex -> fallback1())
-                .onErrorResume(ex -> fallback2())
-                .onErrorReturn(-3)
-                .subscribe(Util.subscriber());
+        Mono.error(new ArithmeticException())
+        //Mono.just(1)
+                .log("l1")
+                .onErrorComplete()
+                .log("l2")
+                .subscribe();
     }
 
     // when you want to return a hardcoded value / simple computation
-    @SuppressWarnings("unused")
     private static void onErrorReturn() {
         Mono.error(new ArithmeticException())
                 .onErrorReturn(IllegalArgumentException.class, -1)
@@ -37,8 +38,14 @@ public class Lec06ErrorHandling {
                 .subscribe(Util.subscriber());
     }
 
+    // in case of error, emit complete
+    private static void onErrorComplete() {
+        Mono.error(new ArithmeticException())
+                .onErrorComplete()
+                .subscribe(Util.subscriber());
+    }
+
     // when you have to use another publisher in case of error
-    @SuppressWarnings("unused")
     private static void onErrorResume() {
         Mono.error(new ArithmeticException())
                 .onErrorResume(ArithmeticException.class, ex -> fallback1())
