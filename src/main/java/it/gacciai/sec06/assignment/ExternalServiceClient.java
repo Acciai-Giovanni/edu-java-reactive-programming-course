@@ -9,12 +9,17 @@ public class ExternalServiceClient extends AbstractHttpClient {
     }
 
     public Flux<Order> getOrders() {
-        return Flux.error(new UnsupportedOperationException("Not implemented"));
-
-        //return this.httpClient.get()
-        //        .uri("/demo02/name/stream")
-        //        .responseContent()
-        //        .asString();
+        return this.httpClient.get()
+                .uri("/demo04/orders/stream")
+                .responseContent()
+                .asString()
+                .map(content -> {
+                    var parts = content.split(":");
+                    return new Order(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+                })
+                .log()
+                .publish()
+                .autoConnect(2);
     }
 
 }
