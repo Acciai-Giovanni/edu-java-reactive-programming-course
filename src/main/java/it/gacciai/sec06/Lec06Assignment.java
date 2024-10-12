@@ -2,6 +2,7 @@ package it.gacciai.sec06;
 
 import it.gacciai.common.Util;
 import it.gacciai.sec06.assignment.ExternalServiceClient;
+import it.gacciai.sec06.assignment.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -18,21 +19,20 @@ public class Lec06Assignment {
     public static void main(String[] args) {
 
         var client = new ExternalServiceClient();
-        var service = client.getOrders();
 
-        service
-                .transform(RevenueService())
+        client.getOrders()
+                .transform(revenueTransformerService())
                 .subscribe(Util.subscriber("CFO"));
 
-        service
-                .transform(InventoryService())
+        client.getOrders()
+                .transform(inventoryTransformerService())
                 .subscribe(Util.subscriber("WarehouseManager"));
 
         Util.sleepSeconds(60);
 
     }
 
-    private static Function<Flux<ExternalServiceClient.Order>, Flux<String>> InventoryService() {
+    private static Function<Flux<Order>, Flux<String>> inventoryTransformerService() {
         return orderFlux -> {
             Map<String, Integer> warehouse = new HashMap<>();
 
@@ -43,13 +43,11 @@ public class Lec06Assignment {
                     .subscribe();
 
             return Flux.interval(Duration.ofSeconds(2))
-                    .map(i -> warehouse.entrySet().stream()
-                            .map(e -> e.getKey() + " : " + e.getValue())
-                            .reduce("", (a, b) -> a + "\n" + b));
+                    .map(i -> warehouse.toString());
         };
     }
 
-    private static Function<Flux<ExternalServiceClient.Order>, Flux<String>> RevenueService() {
+    private static Function<Flux<Order>, Flux<String>> revenueTransformerService() {
         return orderFlux -> {
             Map<String, Integer> revenue = new HashMap<>();
 
@@ -60,23 +58,7 @@ public class Lec06Assignment {
                     .subscribe();
 
             return Flux.interval(Duration.ofSeconds(2))
-                    .map(i -> revenue.entrySet().stream()
-                            .map(e -> e.getKey() + " : " + e.getValue())
-                            .reduce("", (a, b) -> a + "\n" + b));
+                    .map(i -> revenue.toString());
         };
     }
-
-    //Order stream needs min 2 subscribers
-    //order-service produces:
-
-    //String Item
-    //String Category
-    //Integer Price
-    //Integer Quantity
-
-    //item:category:price:quantity
-
-    //inventory service -> Keep track of the quantities per category (local memory with MAP) - Start with 500 items per category.
-    //                     Emit every 2 seconds the whole warehouse stock levels to the warehouse manager
-    //Revenue service -> Emit every 2 seconds the total revenue per category (local memory with MAP) -> to the CFO
 }
