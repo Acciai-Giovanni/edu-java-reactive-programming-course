@@ -11,17 +11,17 @@ import reactor.core.publisher.Flux;
  */
 public class Lec12FluxFlatMapAssignment {
 
-    private static final Logger log = LoggerFactory.getLogger(Lec08ZipAssignment.class);
+    private static final Logger log = LoggerFactory.getLogger(Lec12FluxFlatMapAssignment.class);
 
     public static void main(String[] args) {
         log.info("Start");
 
 
         Flux.range(1,10)
-                .flatMap(i -> new ExternalServiceClient().getProduct(i), 10)
+                .flatMap(i -> new ExternalServiceClient().getProduct(i))
                 .subscribe(Util.subscriber());
 
-        Util.sleepSeconds(5);
+        Util.sleepSeconds(2);
     }
 
 }
