@@ -1,54 +1,36 @@
 package it.gacciai.sec09.assignment;
 
 import it.gacciai.common.AbstractHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 public class ExternalServiceClient extends AbstractHttpClient {
-
-    private static final Logger log = LoggerFactory.getLogger(it.gacciai.sec07.client.ExternalServiceClient.class);
 
     public Mono<Product> getProduct(int productId) {
         return Mono.zip(
                         getProductName(productId),
                         getProductReview(productId),
                         getProductPrice(productId))
-                .map(tuple -> new Product(tuple.getT1(), tuple.getT2(), tuple.getT3()))
-                ;
+                .map(tuple -> new Product(tuple.getT1(), tuple.getT2(), tuple.getT3()));
     }
 
-    public Mono<String> getProductName(int productId) {
-        return this.httpClient.get()
-                .uri("/demo05/product/" + productId)
-                .responseContent()
-                .asString()
-                .doOnNext(m -> log.info("next: {}", m))
-                .next()
-                .publishOn(Schedulers.boundedElastic())
-                ;
+    private Mono<String> getProductName(int productId) {
+        return getResource("product", productId);
     }
 
-    public Mono<String> getProductReview(int productId) {
-        return this.httpClient.get()
-                .uri("/demo05/review/" + productId)
-                .responseContent()
-                .asString()
-                .doOnNext(m -> log.info("next: {}", m))
-                .next()
-                .publishOn(Schedulers.boundedElastic())
-                ;
+    private Mono<String> getProductReview(int productId) {
+        return getResource("review", productId);
     }
 
-    public Mono<String> getProductPrice(int productId) {
+    private Mono<String> getProductPrice(int productId) {
+        return getResource("price", productId);
+    }
+
+    private Mono<String> getResource(String resource, int productId) {
         return this.httpClient.get()
-                .uri("/demo05/price/" + productId)
+                .uri("/demo05/" + resource + "/" + productId)
                 .responseContent()
                 .asString()
-                .doOnNext(m -> log.info("next: {}", m))
                 .next()
-                .publishOn(Schedulers.boundedElastic())
                 ;
     }
 }

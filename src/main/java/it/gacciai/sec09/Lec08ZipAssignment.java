@@ -4,8 +4,6 @@ import it.gacciai.common.Util;
 import it.gacciai.sec09.assignment.ExternalServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 public class Lec08ZipAssignment {
 
