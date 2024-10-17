@@ -22,6 +22,8 @@ public class Lec15Then {
         var records = List.of("a", "b", "c");
 
         saveRecords(records)
+                //.concatWith(Flux.error(new RuntimeException("Exception occurred")))
+                //.log()
                 .then(sendNotification(records)) // only in case of success
                 .subscribe(Util.subscriber());
 
