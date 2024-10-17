@@ -22,7 +22,7 @@ public class Lec11FluxFlatMap {
 
         UserService.getAllUsers()
                    .map(User::id)
-                   .flatMap(OrderService::getUserOrders)
+                   .flatMap(OrderService::getUserOrders,1)
                    .subscribe(Util.subscriber());
 
         Util.sleepSeconds(5);
