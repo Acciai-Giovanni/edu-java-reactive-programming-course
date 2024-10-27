@@ -2,6 +2,8 @@ package it.gacciai.sec10.assignment.window;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -68,6 +70,19 @@ public class FileService {
             Files.write(this.path, "\n".getBytes(), java.nio.file.StandardOpenOption.APPEND);
         } catch (IOException e) {
             log.error("Error writing file", e);
+        }
+    }
+
+    public static Mono<Void> writeEvents(Flux<String> flux) {
+        try {
+            var fileService = FileService.openInstance();
+
+            return flux.doOnNext(e -> fileService.write("*"))
+                    .doOnComplete(fileService::writeln)
+                    .then();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
