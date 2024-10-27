@@ -15,11 +15,11 @@ public class Lec05GroupedFlux {
 
     public static void main(String[] args) {
 
-        Flux.range(1, 30)
-            .delayElements(Duration.ofSeconds(1))
-            .groupBy(i -> i % 2) // 0, 1
-            .flatMap(Lec05GroupedFlux::processEvents)
-            .subscribe();
+        Flux.range(1, 5)
+                .delayElements(Duration.ofSeconds(1))
+                .groupBy(i -> i % 2) // 0, 1
+                .flatMap(Lec05GroupedFlux::processEvents)
+                .subscribe();
 
         Util.sleepSeconds(60);
 
@@ -28,7 +28,8 @@ public class Lec05GroupedFlux {
     private static Mono<Void> processEvents(GroupedFlux<Integer, Integer> groupedFlux) {
         log.info("received flux for {}", groupedFlux.key());
         return groupedFlux.doOnNext(i -> log.info("key: {}, item: {}", groupedFlux.key(), i))
-                          .then();
+                .doOnComplete(() -> log.info("key: {} completed", groupedFlux.key()))
+                .then();
     }
 
 }
